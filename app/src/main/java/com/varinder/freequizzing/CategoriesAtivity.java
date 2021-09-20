@@ -28,7 +28,7 @@ public class CategoriesAtivity extends AppCompatActivity {
 
     private Dialog loadingDialog;
     private RecyclerView recyclerView;
-    private List<categoryModle> list;
+    public static List<categoryModle> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,16 @@ public class CategoriesAtivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    list.add(dataSnapshot.getValue(categoryModle.class));
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    List<String> sets = new ArrayList<>();
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.child("sets").getChildren()){
+                        sets.add(dataSnapshot1.getKey());
+                    }
+                    list.add(new categoryModle(dataSnapshot.child("name").getValue().toString(),
+                            sets,
+                            dataSnapshot.child("url").getValue().toString(),
+                            dataSnapshot.getKey()));
                 }
                 adaptor.notifyDataSetChanged();
                 loadingDialog.dismiss();

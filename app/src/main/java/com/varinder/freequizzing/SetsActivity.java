@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.GridView;
 
+import java.util.List;
+
 public class SetsActivity extends AppCompatActivity {
 
     private GridView gridView;
+    private List<String> sets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,9 @@ public class SetsActivity extends AppCompatActivity {
 
         gridView = findViewById(R.id.gridview);
 
-        GridAdaptor adaptor = new GridAdaptor(getIntent().getIntExtra("sets", 0), getIntent().getStringExtra("title"));
+        sets = CategoriesAtivity.list.get(getIntent().getIntExtra("position", 0)).getSets();
+
+        GridAdaptor adaptor = new GridAdaptor(sets, getIntent().getStringExtra("title"));
         gridView.setAdapter(adaptor);
     }
 

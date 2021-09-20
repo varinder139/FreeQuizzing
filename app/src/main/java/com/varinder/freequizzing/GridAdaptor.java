@@ -7,20 +7,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class GridAdaptor extends BaseAdapter {
 
-    private int sets = 0;
+    private List<String> sets;
     private String category;
 
-    public GridAdaptor(int sets, String category) {
-
+    public GridAdaptor(List<String> sets, String category) {
         this.sets = sets;
         this.category = category;
     }
 
     @Override
     public int getCount() {
-        return sets;
+        return sets.size();
     }
 
     @Override
@@ -37,9 +38,9 @@ public class GridAdaptor extends BaseAdapter {
     public View getView(int i, View convertview, final ViewGroup viewGroup) {
         View view;
 
-        if (convertview == null){
+        if (convertview == null) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.set_item, viewGroup, false);
-        }else {
+        } else {
             view = convertview;
         }
 
@@ -48,12 +49,12 @@ public class GridAdaptor extends BaseAdapter {
             public void onClick(View view) {
                 Intent questionIntent = new Intent(viewGroup.getContext(), QuestionsActivity.class);
                 questionIntent.putExtra("category", category);
-                questionIntent.putExtra("setNo", i+1);
+                questionIntent.putExtra("setId", sets.get(i));
                 viewGroup.getContext().startActivity(questionIntent);
             }
         });
 
-        ((TextView)view.findViewById(R.id.textView)).setText(String.valueOf(i+1));
+        ((TextView) view.findViewById(R.id.textView)).setText(String.valueOf(i + 1));
 
         return view;
     }
